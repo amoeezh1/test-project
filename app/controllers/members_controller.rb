@@ -2,31 +2,21 @@ class MembersController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
   rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
   rescue_from StandardError, with: :handle_exception
-
-    # before_action :set_member, only: [:show, :edit, :update]
     protect_from_forgery with: :null_session
+
     def index
-      @members = Member.all
-    
-      if @members.any?
+      @members = Member.all    
         respond_to do |format|
-          format.json # responds with index.json.jbuilder
-        end
-      else
-        render json: { message: 'No members found' }, status: :not_found
-      end
+          format.json 
+        end     
     end
     
   
     def show
         @member = Member.find(params[:id])
-        if @member.any?
           respond_to do |format|
-            format.json # responds with index.json.jbuilder
+            format.json 
           end
-        else
-          render json: { message: 'No such member found' }, status: :not_found
-        end
     end
     
       def add_project
@@ -43,7 +33,7 @@ class MembersController < ApplicationController
     def update_team
       team = Team.find(params[:team_id])
       @member= Member.find(params[:id])
-      if member.update!(team: team)
+      if @member.update!(team: team)
         render json: { message: 'Member team updated successfully' }, status: :ok
       else
         render json: { errors: @member.errors.full_messages }, status: :unprocessable_entity
@@ -91,7 +81,7 @@ class MembersController < ApplicationController
       render json: { error: "Invalid record" }, status: :unprocessable_entity
     end
     def handle_exception(exception)
-      render json: { error: "An error occurred: #{exception.message}" }, status: :internal_server_error
+      render json: { error: "#{exception.message}" }, status: :internal_server_error
     end
     def member_params
       params.require(:member).permit(:first_name, :last_name, :city, :state, :country)

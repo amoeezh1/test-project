@@ -1,4 +1,3 @@
-# app/views/teams/show.json.jbuilder
 json.extract! @team, :id, :name
 
 json.members @team.members do |member|

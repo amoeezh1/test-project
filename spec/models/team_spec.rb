@@ -12,4 +12,8 @@ RSpec.describe Team, type: :model do
     t= Team.new(name: nil)
     expect(t).to_not be_valid
   end
+  it "is checking if wrong datatype is given" do
+    m=Team.new(name: 1)
+    expect(m).to_not be_valid
+  end
 end

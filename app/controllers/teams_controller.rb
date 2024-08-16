@@ -4,25 +4,17 @@ class TeamsController < ApplicationController
   rescue_from StandardError, with: :handle_exception
   protect_from_forgery with: :null_session
   def show
-    @team = Team.find(params[:id])
-    if @team.any?
+    @team = Team.find(params[:id])    
       respond_to do |format|
-        format.json # responds with index.json.jbuilder
-      end
-    else
-      render json: { message: 'No such team found' }, status: :not_found
-    end
+        format.json 
+      end   
   end
   
       def index
-        @teams=Team.all 
-        if @teams.any?
+        @teams=Team.all         
           respond_to do |format|
-            format.json # responds with index.json.jbuilder
-          end
-        else
-          render json: { message: 'No teams found' }, status: :not_found
-        end
+            format.json 
+          end       
       end
 
       def new
@@ -86,7 +78,7 @@ class TeamsController < ApplicationController
         render json: { error: "Invalid record" }, status: :unprocessable_entity
       end
       def handle_exception(exception)
-        render json: { error: "An error occurred: #{exception.message}" }, status: :internal_server_error
+        render json: { error: "#{exception.message}" }, status: :internal_server_error
       end
       def team_params
           params.require(:team).permit(:name)

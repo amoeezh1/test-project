@@ -5,24 +5,19 @@ class ProjectsController < ApplicationController
     protect_from_forgery with: :null_session
     def show
         @project=  Project.find(params[:id])
-        if @project.any?
+        
           respond_to do |format|
-            format.json # responds with index.json.jbuilder
+            format.json 
           end
-        else
-          render json: { message: 'No such project found' }, status: :not_found
-        end
+       
       end
   
       def index
-          @projects=Project.all 
-          if @projects.any?
+        @projects=Project.all           
+       
             respond_to do |format|
-              format.json # responds with index.json.jbuilder
+              format.json 
             end
-          else
-            render json: { message: 'No Projects found' }, status: :not_found
-          end
       end
       def new
           @project=Project.new
@@ -81,7 +76,7 @@ class ProjectsController < ApplicationController
         render json: { error: "Invalid record" }, status: :unprocessable_entity
       end
       def handle_exception(exception)
-        render json: { error: "An error occurred: #{exception.message}" }, status: :internal_server_error
+        render json: { error: "#{exception.message}" }, status: :internal_server_error
       end
   
       def project_params
