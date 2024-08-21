@@ -2,8 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Team, type: :model do
   it { should have_many(:members) }
-
-
   it "is checking if name is given then it is valid or not" do
     t= Team.new(name: "moeez")
     expect(t).to be_valid

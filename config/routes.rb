@@ -11,8 +11,7 @@ Rails.application.routes.draw do
   end
   namespace :members do 
     resources :projects,only: [:create]
-    resources :teams,only: [:update]
-   
+    resources :teams,only: [:update]   
   end
   namespace :projects do 
     resources :members,only: [:index]

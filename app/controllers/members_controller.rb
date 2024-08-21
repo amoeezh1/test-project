@@ -1,14 +1,11 @@
 class MembersController < ApplicationController
     def index
-      @members = Member.all    
-         
-    end
-    
+      @members = Member.all             
+    end  
   
     def show
         @member = Member.find(params[:id])          
-    end
-    
+    end   
   
     def create
       team_name=params.dig(:member,:team,:name)
@@ -22,10 +19,12 @@ class MembersController < ApplicationController
         @member = Member.find(params[:id])
         @member.update!(create_params)           
     end
+
     def destroy 
         @member=Member.find(params[:id])
         @member.destroy!
     end
+
     private
   
     def create_params

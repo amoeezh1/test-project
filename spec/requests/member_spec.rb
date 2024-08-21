@@ -10,12 +10,12 @@ RSpec.describe "Members", type: :request do
       get members_path,as: :json
       expect(response.body).to include("John", "Doe")
     end
+
     it "returns an empty array when no members exist" do
       Member.delete_all
       get members_path, as: :json
       expect(response.body).to eq("[]")
-    end
-    
+    end    
   end
 
   describe "GET /members/:id" do
@@ -23,6 +23,7 @@ RSpec.describe "Members", type: :request do
       get member_path(member),as: :json
       expect(response.body).to include("John", "Doe")
     end
+
     it "returns the empty member" do
     Member.delete_all
 
@@ -34,6 +35,7 @@ RSpec.describe "Members", type: :request do
     expect(json_response).to eq(expected_response)
   end
   end
+
   describe "POST /members" do
     it "returns a success response" do
       post members_path, params:{member:{first_name: "Moeez",last_name: "hassan", team: team}}, as: :json
@@ -53,29 +55,34 @@ RSpec.describe "Members", type: :request do
       }
       expect(json_response).to eq(expected_response)
     end
+
     it " wrong datatype given" do
       post members_path, params:{member:{first_name: 123,last_name: 44, team: team}}, as: :json
       json_response = JSON.parse(response.body)
       last=Member.last
       expect(json_response["error"]).to include("only allows letters")
     end
+
     it " nil given" do
       post members_path, params:{member:{first_name: nil,last_name: nil, team: nil}}, as: :json
       json_response = JSON.parse(response.body)
       last=Member.last
       expect(json_response["error"]).to include("can't be blank")
     end
+
     it " nothing given" do
       post members_path, params:{member:{}}, as: :json
       json_response = JSON.parse(response.body)
       expect(json_response["error"]).to include("value is empty")
     end
+
     it " wrong key given" do
       post members_path, params:{team:{}}, as: :json
       json_response = JSON.parse(response.body)
       expect(json_response["error"]).to include("value is empty")
     end
   end
+
   describe "PUT /members/:id" do
     it "updates the requested member" do
       put member_path(member), params: { member: { first_name: "Jane", last_name: "Doe" } }
@@ -83,22 +90,26 @@ RSpec.describe "Members", type: :request do
       expect(member.first_name).to eq("Jane")
       expect(member.last_name).to eq("Doe")
     end
+
     it "wrong id passed" do
         put member_path(30), params: { member: { first_name: "Jane", last_name: "Doe" } }
       expect(response.body).to include("Couldn't find")
     end
+
     it " wrong datatype given" do
       post members_path, params:{member:{first_name: 123,last_name: 44, team: team}}, as: :json
       json_response = JSON.parse(response.body)
       last=Member.last
       expect(json_response["error"]).to include("only allows letters")
     end
+
     it " nil given" do
       post members_path, params:{member:{first_name: nil,last_name: nil, team: nil}}, as: :json
       json_response = JSON.parse(response.body)
       last=Member.last
       expect(json_response["error"]).to include("can't be blank")
     end
+
     it " nothing given" do
       post members_path, params:{member:{}}, as: :json
       json_response = JSON.parse(response.body)
@@ -111,6 +122,7 @@ RSpec.describe "Members", type: :request do
       delete member_path(member)
       expect(Member.exists?(member.id)).to be_falsey
     end
+    
     it "wrong id passed" do
       put member_path(30)
     expect(response.body).to include("Couldn't find")

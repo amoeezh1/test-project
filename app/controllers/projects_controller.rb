@@ -9,8 +9,7 @@ class ProjectsController < ApplicationController
       end
 
       def new
-          @project=Project.new
-          
+          @project=Project.new          
       end
     
       def create
@@ -26,6 +25,7 @@ class ProjectsController < ApplicationController
       def edit
         @project=Project.find(params[:id])
       end
+
       def destroy
         @project=Project.find(params[:id])
         @project.destroy!
@@ -37,4 +37,5 @@ class ProjectsController < ApplicationController
       def create_params
           params.require(:project).permit(:name)
       end
+      
 end
