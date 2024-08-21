@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Projects", type: :request do
-  let!(:project) { Project.create(name: "Test Project") }  
+  let!(:project) { create(:project) } 
 
   describe "GET /projects" do
     it "returns a success response" do

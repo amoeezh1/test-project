@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Teams", type: :request do
-  let!(:team) { Team.create(name: "Test Team") }
+  let!(:team) { create(:team) }
 
   describe "GET /teams" do
     it "returns a success response" do

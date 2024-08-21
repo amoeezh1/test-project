@@ -50,7 +50,17 @@ group :development, :test do
   gem "debug", platforms: %i[ mri mswin mswin64 mingw x64_mingw ]
 
   gem "pry"
+
+  gem "byebug"
+
+  gem 'rubocop', require: false
+
+  gem 'factory_bot_rails'
+
+  gem 'rswag'
+
 end
+
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
