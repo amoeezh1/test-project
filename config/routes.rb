@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
@@ -5,20 +7,18 @@ Rails.application.routes.draw do
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get "up" => "rails/health#show", as: :rails_health_check
-  namespace :teams do
-    resources :members, only: [:index]
+  get 'up' => 'rails/health#show', as: :rails_health_check
+
+  resources :members do
+    resources :teams, only: [:update], module: 'members'
   end
-  namespace :members do 
-    resources :projects,only: [:create]
-    resources :teams,only: [:update]   
+  resources :projects do
+    resources :members, only: %i[create index], module: 'projects'
   end
-  namespace :projects do 
-    resources :members,only: [:index]
+
+  resources :teams do
+    resources :members, only: [:index], module: 'teams'
   end
-  resources :members
-  resources :projects
-  resources :teams
   # Defines the root path route ("/")
   # root "posts#index"
 end

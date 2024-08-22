@@ -1,40 +1,39 @@
+# frozen_string_literal: true
+
 class TeamsController < ApplicationController
-
+  before_action :set_team, only: %i[show update destroy]
   def show
-    @team = Team.find(params[:id])           
+    @team
   end
-  
-      def index
-        @teams=Team.all     
-      end
 
-      def new
-        @team=Team.new
-      end
-  
-      def create
-        @team=Team.new(create_params)
-        @team.save! 
-       end
-      
-      def update        
-        @team=Team.find(params[:id])
-        @team.update!(create_params)      
-      end
-  
-      def edit
-        @team=Team.find(params[:id])
-      end
+  def index
+    @teams = Team.all
+  end
 
-      def destroy
-        @team=Team.find(params[:id])
-        @team.destroy!
-        end 
-  
-      private  
- 
-      def create_params
-          params.require(:team).permit(:name)
-      end
-      
+  def new
+    @team = Team.new
+  end
+
+  def create
+    @team = Team.new(team_params)
+    @team.save!
+  end
+
+  def update
+    @team.update!(team_params)
+  end
+
+  def destroy
+    @team.destroy!
+  end
+
+  private
+
+  def set_team
+    @team = Team.find(params[:id])
+  end
+
+  def team_params
+    params.require(:team).permit(:name)
+  end
 end

@@ -1,41 +1,40 @@
+# frozen_string_literal: true
+
 class ProjectsController < ApplicationController
-  
-    def show
-        @project=  Project.find(params[:id])
-    end
-  
-      def index
-        @projects=Project.all  
-      end
+  before_action :set_project, only: %i[show update destroy]
 
-      def new
-          @project=Project.new          
-      end
-    
-      def create
-        @project=Project.new(create_params)
-        @project.save! 
-      end
-  
-      def update
-        @project=Project.find(params[:id])
-       @project.update!(create_params)          
-      end
-  
-      def edit
-        @project=Project.find(params[:id])
-      end
+  def show
+    @project
+  end
 
-      def destroy
-        @project=Project.find(params[:id])
-        @project.destroy!
-      end
-  
-  
-      private
-  
-      def create_params
-          params.require(:project).permit(:name)
-      end
-      
+  def index
+    @projects = Project.all
+  end
+
+  def new
+    @project = Project.new
+  end
+
+  def create
+    @project = Project.new(project_params)
+    @project.save!
+  end
+
+  def update
+    @project.update!(project_params)
+  end
+
+  def destroy
+    @project.destroy!
+  end
+
+  private
+
+  def set_project
+    @project = Project.find(params[:id])
+  end
+
+  def project_params
+    params.require(:project).permit(:name)
+  end
 end
